@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../thomas-multiweb"
+		},
+		{
+			"path": "../webdriverio-example"
+		},
+		{
+			"path": "../Javascript_TypeScript_practice"
+		},
+		{
+			"path": "../webdriverioMerchantFramework"
+		},
+		{
+			"path": "../CypressFramework"
+		},
+		{
+			"path": "../PlaywrightFramework"
+		},
+		{
+			"path": "../SkillDrive"
+		}
+	]
+}

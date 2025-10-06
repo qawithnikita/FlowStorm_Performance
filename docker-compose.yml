@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  locust-master:
+    build:   
+      context: .
+      dockerfile: docker/Dockerfile.locust-master
+    container_name: locust-master
+    working_dir: /app
+    ports:
+      - "8089:8089"  # Web UI
+      - "5557:5557"  # Worker communication
+    networks:
+      - locust-network
+    environment:
+      - LOCUST_HOST=http://host.docker.internal:8000  
+    volumes:
+      - ./results:/app/results  
+  locust-worker-1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.locust-worker
+    container_name: locust-worker-1
+    working_dir: /app
+    networks:
+      - locust-network
+    depends_on:
+      - locust-master
+    environment:
+      - LOCUST_MASTER_HOST=locust-master
+      - LOCUST_MASTER_PORT=5557
+
+  locust-worker-2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.locust-worker
+    container_name: locust-worker-2
+    working_dir: /app
+    networks:
+      - locust-network
+    depends_on:
+      - locust-master
+    environment:
+      - LOCUST_MASTER_HOST=locust-master
+      - LOCUST_MASTER_PORT=5557
+
+networks:
+  locust-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  results:
+    driver: local

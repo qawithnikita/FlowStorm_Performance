@@ -1,0 +1,21 @@
+[project]
+name = "locust-load-testing"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "QAComet",email = "lucas@qacomet.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "locust>=2.37.6,<3.0.0",
+    "bottle (>=0.13.3,<0.14.0)",
+    "Faker >=24.8.0,<25.0.0"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+[tool.poetry]
+package-mode = false

@@ -1,0 +1,30 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install required system packages and upgrade pip
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libffi-dev \
+    libssl-dev \
+    && pip install --upgrade pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Locust
+RUN pip install locust
+
+# Copy the requirements file 
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the Locust test files into container
+COPY src /app/src
+
+COPY src/locust_tests /app/locust_tests
+COPY run_locust.py /app/run_locust.py
+
+#  Expose Locust web UI and worker communication ports
+EXPOSE 8089 5557
+
+# Run Locust in master mode and point to actual server
+CMD ["locust", "-f", "run_locust.py", "--master", "--host=http://host.docker.internal:8000"]
